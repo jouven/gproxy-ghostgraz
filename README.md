@@ -13,7 +13,7 @@ Qt library
 
 https://github.com/jouven/BNCSUtil
 
-Run (in hasherQt source directory or pointing to it):
+Run (in gproxy-ghostgraz source directory or pointing to it):
 
     qmake
 
