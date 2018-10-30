@@ -1,0 +1,20 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+    <file>images/GProxy.gif</file>
+    <file>images/Cancel.png</file>
+    <file>images/Tool.png</file>
+    <file>images/Error.png</file>
+    <file>images/Mail.png</file>
+    <file>images/User.png</file>
+    <file>images/Edit.png</file>
+    <file>images/Edit Alt.png</file>
+    <file>images/Play.png</file>
+    <file>images/Chat Bubble.png</file>
+    <file>images/Add.png</file>
+    <file>images/Remove.png</file>
+    <file>images/Applications.png</file>
+    <file>images/Refresh.png</file>
+    <file>images/Colors.png</file>
+  </qresource>
+</RCC>

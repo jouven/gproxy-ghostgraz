@@ -1,0 +1,26 @@
+#ignore
+
+#folders
+build-Desktop-Debug/
+build-Desktop-Release/
+build-Desktop-Profile/
+release/
+debug/
+build-gproxy-Desktop_Qt_MinGW_w64_64bit_MSYS2-Debug/
+build-gproxy-Desktop_Qt_MinGW_w64_64bit_MSYS2-Release/
+source min mod 129/
+source modified 128/
+source original/
+sourceLastUsedForOfficial/
+
+#files
+.qmake.stash
+Makefile
+Makefile.Debug
+Makefile.Release
+BNCSUtil.dll
+
+#file types
+*.o
+*.exe
+*.pro.user

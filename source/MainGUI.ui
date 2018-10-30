@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainGUI</class>
+ <widget class="QMainWindow" name="MainGUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1087</width>
+    <height>571</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>200</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>GProxy GhostGraz v2.3.3</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/GProxy.gif</normaloff>:/images/GProxy.gif</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>230</red>
+         <green>230</green>
+         <blue>230</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>230</red>
+         <green>230</green>
+         <blue>230</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="font">
+    <font>
+     <family>Courier New</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <widget class="QPlainTextEdit" name="inputTextArea">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>521</y>
+      <width>661</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Courier New</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="plainText">
+     <string/>
+    </property>
+   </widget>
+   <widget class="ClickableListWidget" name="channelList">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>30</y>
+      <width>181</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::CustomContextMenu</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+   </widget>
+   <widget class="ClickableListWidget" name="friendList">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>330</y>
+      <width>181</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::CustomContextMenu</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::NoSelection</enum>
+    </property>
+   </widget>
+   <widget class="ClickableListWidget" name="gameList">
+    <property name="geometry">
+     <rect>
+      <x>665</x>
+      <y>30</y>
+      <width>231</width>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="titleLabel">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>0</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
+    <property name="font">
+     <font>
+      <family>Courier New</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>BlankCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Channel</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="refreshButton">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>0</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh</string>
+    </property>
+   </widget>
+   <widget class="MTextEdit" name="outputTextArea">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>661</width>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>9</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="undoRedoEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="html">
+     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::TextBrowserInteraction</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1087</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="fileMenu">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="optionsAction"/>
+    <addaction name="separator"/>
+    <addaction name="restartAction"/>
+    <addaction name="exitAction"/>
+   </widget>
+   <addaction name="fileMenu"/>
+  </widget>
+  <action name="optionsAction">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/Tool.png</normaloff>:/images/Tool.png</iconset>
+   </property>
+   <property name="text">
+    <string>Options</string>
+   </property>
+  </action>
+  <action name="exitAction">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/Cancel.png</normaloff>:/images/Cancel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="restartAction">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/Refresh.png</normaloff>:/images/Refresh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Restart</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ClickableListWidget</class>
+   <extends>QListWidget</extends>
+   <header>widget/ClickableListWidget.h</header>
+   <slots>
+    <signal>clicked(QMouseEvent*)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>MTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>widget/MTextEdit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>exitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainGUI</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gameList</sender>
+   <signal>clicked(QMouseEvent*)</signal>
+   <receiver>MainGUI</receiver>
+   <slot>onGameListItemClicked(QMouseEvent*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>780</x>
+     <y>311</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>titleLabel</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainGUI</receiver>
+   <slot>onTitleLabelTextChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>990</x>
+     <y>31</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>channelList</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>MainGUI</receiver>
+   <slot>onChannelContextMenu(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>990</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>friendList</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>MainGUI</receiver>
+   <slot>onFriendsContextMenu(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>990</x>
+     <y>461</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>refreshButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainGUI</receiver>
+   <slot>onRefreshButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>780</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>channelList</sender>
+   <signal>clicked(QMouseEvent*)</signal>
+   <receiver>MainGUI</receiver>
+   <slot>onChannellistItemClicked(QMouseEvent*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>990</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>friendList</sender>
+   <signal>clicked(QMouseEvent*)</signal>
+   <receiver>MainGUI</receiver>
+   <slot>onFriendlistItemClicked(QMouseEvent*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>990</x>
+     <y>461</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>optionsAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainGUI</receiver>
+   <slot>showConfigDialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>restartAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainGUI</receiver>
+   <slot>onRestart()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>543</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>showConfigDialog()</slot>
+  <slot>onGameListItemClicked(QMouseEvent*)</slot>
+  <slot>onInputTextAreaTextChanged()</slot>
+  <slot>onTitleLabelTextChanged()</slot>
+  <slot>onRefreshButtonClicked()</slot>
+  <slot>onChannelContextMenu(QPoint)</slot>
+  <slot>onFriendsContextMenu(QPoint)</slot>
+  <slot>onChannellistItemClicked(QMouseEvent*)</slot>
+  <slot>onFriendlistItemClicked(QMouseEvent*)</slot>
+  <slot>onRestart()</slot>
+ </slots>
+</ui>

@@ -1,0 +1,2012 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConfigGUI</class>
+ <widget class="QDialog" name="ConfigGUI">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>550</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>450</width>
+    <height>550</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>450</width>
+    <height>550</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>GProxy Options</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/Tool.png</normaloff>:/images/Tool.png</iconset>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>520</y>
+     <width>450</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+   <property name="centerButtons">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="optionsTabWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>450</width>
+     <height>520</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="currentIndex">
+    <number>3</number>
+   </property>
+   <widget class="QWidget" name="connectionTab">
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <attribute name="title">
+     <string>Connection</string>
+    </attribute>
+    <widget class="QLabel" name="channelLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>300</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>This is the first channel that GProxy will join after logging in to battle.net.</string>
+     </property>
+     <property name="text">
+      <string>Channel:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="serverLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>Select the battle.net server you want GProxy to connect to.</string>
+     </property>
+     <property name="text">
+      <string>Battle.net server:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="tftKeyLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>140</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>GProxy needs your cd keys to connect to battle.net.</string>
+     </property>
+     <property name="text">
+      <string>The Frozen Throne CD key:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="war3versionLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>340</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>This is the Warcraft 3 patch version.
+If you had to update Warcraft 3, you probably have to increase this number too.</string>
+     </property>
+     <property name="text">
+      <string>Warcraft 3 patch version:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="usernameLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>220</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>Fill in your battle.net username.</string>
+     </property>
+     <property name="text">
+      <string>Username:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="war3pathLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The Warcraft 3 install direcoty is needed to connected to battle.net.
+It is also needed to start Warcraft 3 with GProxy.</string>
+     </property>
+     <property name="text">
+      <string>Warcraft 3 Install directory:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="rocKeyLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>GProxy needs your cd keys to connect to battle.net.</string>
+     </property>
+     <property name="text">
+      <string>Reign of Chaos CD key:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="passwordLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>260</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>Fill in your battle.net password.</string>
+     </property>
+     <property name="text">
+      <string>Password:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="portLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>380</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>This is the port which GProxy will use.
+If you don't know what a port is I recommend you to not change this number.</string>
+     </property>
+     <property name="text">
+      <string>Port:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="connectionHeaderLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>450</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Connection</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="cdkeyrocTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>100</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>GProxy needs your cd keys to connect to battle.net.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Reign of Chaos CD key</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="cdkeytftTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>140</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>GProxy needs your cd keys to connect to battle.net.</string>
+     </property>
+     <property name="placeholderText">
+      <string>The Frozen Throne CD key</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="usernameTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>220</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>Fill in your battle.net username.</string>
+     </property>
+     <property name="placeholderText">
+      <string>Username</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="passwordTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>260</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>Fill in your battle.net password.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="placeholderText">
+      <string>Password</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="channelTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>300</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>This is the first channel that GProxy will join after logging in to battle.net.</string>
+     </property>
+     <property name="placeholderText">
+      <string>Channel</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="war3versionTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>340</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>This is the Warcraft 3 patch version.
+If you had to update Warcraft 3, you probably have to increase this number too.</string>
+     </property>
+     <property name="placeholderText">
+      <string>Warcraft 3 patch version</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="portTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>380</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>This is the port which GProxy will use.
+If you don't know what a port is I recommend you to not change this number.</string>
+     </property>
+     <property name="placeholderText">
+      <string>Port</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="serverCombobox">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>180</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>Select the battle.net server you want GProxy to connect to.</string>
+     </property>
+     <property name="maxCount">
+      <number>6</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>US West (Lordaeron)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>US East (Azeroth)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Asia (Kalimdor)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Europe (Northrend)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>PvPGN Server</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="war3pathButton">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>60</y>
+       <width>30</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="whatsThis">
+      <string>If you click on this button, a file dialog will be opened to select the Warcraft 3 path.</string>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="ClickableLineEdit" name="war3pathTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>60</y>
+       <width>210</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The Warcraft 3 install direcoty is needed to connected to battle.net.
+It is also needed to start Warcraft 3 with GProxy.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Warcraft 3 Install directory</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="cdkeysownerLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>420</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>This is the name shown on the message: Your cd keys are already in use by @param</string>
+     </property>
+     <property name="text">
+      <string>CD key owner</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="cdkeysownerTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>420</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>This is the port which GProxy will use.
+If you don't know what a port is I recommend you to not change this number.</string>
+     </property>
+     <property name="placeholderText">
+      <string>GProxy</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="pvpgnTab">
+    <attribute name="title">
+     <string>PvPGN</string>
+    </attribute>
+    <widget class="QLabel" name="pvpgnHeaderLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>450</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>PvPGN (Player vs Player Gaming Network) is a bnetd based gaming network server emulation project. More information can be found at www.google.com ;P</string>
+     </property>
+     <property name="text">
+      <string>Player vs Player Gaming Network</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="exeversionhashLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Exe vesion hash:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="exeversionhashTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>100</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Exe version hash</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="exeversionLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Exe version:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="exeversionTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>60</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Exe version</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="passwordhashtypeLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>140</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Password hash type:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="passwordhashtypeTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>140</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Password hash type</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="appearanceTab">
+    <attribute name="title">
+     <string>Appearance</string>
+    </attribute>
+    <widget class="QLabel" name="appearanceHeaderLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>450</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Appearance</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QTabWidget" name="appearanceTabWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>450</width>
+       <height>460</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="appearanceGeneralTab">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <widget class="QLabel" name="generalBackgroundcolorHeaderLabel">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>450</width>
+         <height>40</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>16</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Backgroundcolor</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="backgroundcolorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Background color:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="backgroundcolorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>60</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change background color</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalErrorColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>380</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Error color:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalWarningColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>350</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Warning color:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalForegroundcolorHeaderLabel">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>90</y>
+         <width>450</width>
+         <height>40</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>16</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Foregroundcolor</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalChatColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>140</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Default color:</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalErrorColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>380</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change error color</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalEmoteColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>320</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Emote color:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalGameinfoColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>200</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Gameinfo color:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalGProxyColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>230</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>GProxy color:</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalWarningColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>350</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change warning color</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalBnetColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>260</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Bnet color:</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalEmoteColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>320</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change emote color</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalInfoColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>290</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change info color</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalBnetColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>260</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change bnet color</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalWhisperColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>170</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Whisper color:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="generalInfoColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>290</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Info color:</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalGProxyColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>230</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change gproxy color</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalGameinfoColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>200</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change gameinfo color</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalWhisperColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>170</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change whisper color</string>
+       </property>
+      </widget>
+      <widget class="MButton" name="generalDefaultColorButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>140</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change default color</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="appearanceOutputareaTab">
+      <property name="whatsThis">
+       <string>The output area is the big field at the left side of GProxy.
+Here you can will see all chat messages and much more.</string>
+      </property>
+      <attribute name="title">
+       <string>Ouput area</string>
+      </attribute>
+      <widget class="QLabel" name="outputareaHeaderLabel">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>450</width>
+         <height>40</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>16</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Output area</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="outputareaFontLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>160</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Font:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="outputareaFontButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>60</y>
+         <width>240</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change font</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="miscellaneousTab">
+    <attribute name="title">
+     <string>Miscellaneous</string>
+    </attribute>
+    <widget class="QLabel" name="miscellaneousHeaderLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>450</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Miscellaneous</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="soundLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>140</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>If the sound is enabled GProxy will play a sound for some events.
+For example: Whipser or player left.</string>
+     </property>
+     <property name="text">
+      <string>Sound:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="privategamenameLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The privategamename is needed for the /waitgame feature.
+This is the name of the game the bot will create.</string>
+     </property>
+     <property name="text">
+      <string>Privategamename:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="botprefixLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>220</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The botprefix is needed for the /waitgame feature. Waitgame will wait for a bot which name starts with the botprefix.</string>
+     </property>
+     <property name="text">
+      <string>Botprefix:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="loggingLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>260</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>If logging is enabled GProxy will write various messages to the log file.
+The log file is located in the folder where the .exe is and is named gproxy_log.txt.</string>
+     </property>
+     <property name="text">
+      <string>Log:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="soundCombobox">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>140</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>If the sound is enabled GProxy will play a sound for some events.
+For example: Whipser or player left.</string>
+     </property>
+     <property name="maxCount">
+      <number>10</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Enabled</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Disabled</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLineEdit" name="privategamenameTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>180</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The privategamename is needed for the /waitgame feature.
+This is the name of the game the bot will create.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Privategamename</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="botprefixTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>220</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The botprefix is needed for the /waitgame feature. Waitgame will wait for a bot which name starts with the botprefix.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Botprefix</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="logCombobox">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>260</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>If logging is enabled GProxy will write various messages to the log file.
+The log file is located in the folder where the .exe is and is named gproxy_log.txt.</string>
+     </property>
+     <property name="maxCount">
+      <number>10</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Enabled</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Disabled</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="ghostgrazPasswordLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The GhostGraz password is needed for the connection to the statspage.
+(E.g. retrieve stay ratio)</string>
+     </property>
+     <property name="text">
+      <string>GhostGraz password:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ghostgrazUsernameLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The GhostGraz username is needed for the connection to the statspage.
+(E.g. retrieve stay ratio)</string>
+     </property>
+     <property name="text">
+      <string>GhostGraz username:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="ghostgrazUsernameTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>60</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The GhostGraz username is needed for the connection to the statspage.
+(E.g. retrieve stay ratio)</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>GhostGraz username</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="ghostgrazPasswordTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>100</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>The GhostGraz password is needed for the connection to the statspage.
+(E.g. retrieve stay ratio)</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="placeholderText">
+      <string>GhostGraz password</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="joinstatsLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>300</y>
+       <width>160</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>If stats are enabled, gproxy will show the stats of each player on join or when he joins</string>
+     </property>
+     <property name="text">
+      <string>Stats on join:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="joinstatsCombobox">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>300</y>
+       <width>240</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string>If stats are enabled, gproxy will show the stats of each player on join or when he joins</string>
+     </property>
+     <property name="maxCount">
+      <number>10</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Enabled</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Disabled</string>
+      </property>
+     </item>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ClickableLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>widget/ClickableLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MButton</class>
+   <extends>QPushButton</extends>
+   <header>widget/MButton.h</header>
+   <slots>
+    <signal>clicked(MButton*)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>war3pathTextfield</sender>
+   <signal>clicked()</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onWar3pathChangeRequest()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>286</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>war3pathButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onWar3pathChangeRequest()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>406</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>backgroundcolorButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onBackgroundcolorButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>outputareaFontButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onOutputareaFontButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalBnetColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>353</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalDefaultColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>233</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalEmoteColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>413</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalErrorColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>473</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalGProxyColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>323</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalGameinfoColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>293</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalInfoColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>383</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalWarningColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>443</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>generalWhisperColorButton</sender>
+   <signal>clicked(MButton*)</signal>
+   <receiver>ConfigGUI</receiver>
+   <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onWar3pathChangeRequest()</slot>
+  <slot>onBackgroundcolorButtonClicked()</slot>
+  <slot>onOutputareaFontButtonClicked()</slot>
+  <slot>onForegroundcolorButtonClicked(MButton*)</slot>
+ </slots>
+</ui>
