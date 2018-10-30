@@ -16,7 +16,7 @@
 #include <QMessageBox>
 #include <QIcon>
 #include <QProcess>
-#include <QSound>
+#include <QMediaPlayer>
 #include <QTimer>
 #include <QFile>
 #include <QDateTime>
@@ -27,6 +27,15 @@
 
 #undef ERROR /* Undefine ERROR macro. Needed for ColoredMessage::ERROR. */
 
+void MainGUI::closeEvent(QCloseEvent *event)
+{
+    Config* config = gproxy->getConfig();
+    config->setMainWindowGeometry(this->saveGeometry());
+    config->commit();
+    gproxy->cleanup();
+    event->accept();
+}
+
 MainGUI::MainGUI (CGProxy *p_gproxy)
 {
     widget.setupUi(this);
@@ -35,21 +44,16 @@ MainGUI::MainGUI (CGProxy *p_gproxy)
 
 MainGUI::~MainGUI ()
 {
-    delete statspage;
-    delete gameListDownloader;
+    //statspage->deleteLater();
+    //delete gameListDownloader;
     gproxyUpdateThread->stop();
-    delete gproxyUpdateThread;
+    gproxyUpdateThread->deleteLater();
 }
 
-void MainGUI::onClose ()
-{
-    Config* config = gproxy->getConfig();
-    config->setInt("width", this->width());
-    config->setInt("height", this->height());
-    config->commit();
+//void MainGUI::onClose ()
+//{
 
-    gproxy->cleanup();
-}
+//}
 
 void MainGUI::onRestart()
 {
@@ -66,9 +70,14 @@ void MainGUI::startUpdateThread()
 
 void MainGUI::init ()
 {
-    gameListDownloader = new GameListDownloader("http://0.static.ghostgraz.com/currentgames.txt");
-    gameListDownloader->startDownloadInterval(5000);
-    gproxyUpdateThread = new GproxyUpdateThread(gproxy);
+//checked on 2018-04-12, I don't think it works anymore
+//# list of current games on GhostGraz bots
+//# created on Mon Sep 15 23:31:58 CEST 2014
+//ghost1,Dota -apemso GhostGraz #37160,+10
+
+    //gameListDownloader = new GameListDownloader("http://0.static.ghostgraz.com/currentgames.txt");
+    //gameListDownloader->startDownloadInterval(5000);
+    gproxyUpdateThread = new GproxyUpdateThread(gproxy, this);
 
     widget.channelList->setItemDelegate(new ChannellistDelegate(this));
     widget.gameList->setItemDelegate(new GamelistDelegate());
@@ -79,42 +88,41 @@ void MainGUI::init ()
     widget.inputTextArea->installEventFilter(this);
 
     QAction *startWarcraftAction = widget.menuBar->addAction("Start Warcraft");
-    connect(startWarcraftAction, SIGNAL(activated()),
-            this, SLOT(startWarcraft()));
+    connect(startWarcraftAction, &QAction::triggered, this, &MainGUI::startWarcraft);
 
-    initStatspage();
+    //initStatspage();
     initLayout();
     initSlots();
 }
 
-void MainGUI::initStatspage ()
-{
-    statspage = new Statspage();
+//void MainGUI::initStatspage ()
+//{
+//    statspage = new Statspage();
 
-    connect(statspage, SIGNAL(loginFinished()),
-            this, SLOT(statspageLoginFinished()));
-    connect(statspage, SIGNAL(playerInformationReplyFinished(Player *)),
-            this, SLOT(receivedPlayerInformation(Player *)));
-    connect(statspage, SIGNAL(adminlistReplyFinished(QStringList)),
-            this, SLOT(onAdminlistReceived(QStringList)));
+//    connect(statspage, SIGNAL(loginFinished()),
+//            this, SLOT(statspageLoginFinished()));
+//    connect(statspage, SIGNAL(playerInformationReplyFinished(Player *)),
+//            this, SLOT(receivedPlayerInformation(Player *)));
+//    connect(statspage, SIGNAL(adminlistReplyFinished(QStringList)),
+//            this, SLOT(onAdminlistReceived(QStringList)));
 
-    Config* config = gproxy->getConfig();
-    QString ghostgrazUsername = config->getString("ghostgrazUsername");
-    QString ghostgrazPassword = config->getString("ghostgrazPassword");
+//    Config* config = gproxy->getConfig();
+//    QString ghostgrazUsername = config->getString("ghostgrazUsername");
+//    QString ghostgrazPassword = config->getString("ghostgrazPassword");
 
-    if (ghostgrazUsername.isEmpty() && ghostgrazPassword.isEmpty()
-            && config->hasRequiredValues())
-    {
-        GhostGrazLogininformationDialog *dialog =
-                new GhostGrazLogininformationDialog(gproxy->getConfig(), statspage);
-        dialog->setModal(true);
-        dialog->show();
-    }
-    else
-    {
-        statspage->login(ghostgrazUsername, ghostgrazPassword);
-    }
-}
+//    if (ghostgrazUsername.isEmpty() && ghostgrazPassword.isEmpty()
+//            && config->hasRequiredValues())
+//    {
+//        GhostGrazLogininformationDialog *dialog =
+//                new GhostGrazLogininformationDialog(gproxy->getConfig(), statspage);
+//        dialog->setModal(true);
+//        dialog->show();
+//    }
+//    else
+//    {
+//        statspage->login(ghostgrazUsername, ghostgrazPassword);
+//    }
+//}
 
 void MainGUI::initLayout ()
 {
@@ -162,15 +170,15 @@ void MainGUI::initLayout ()
 
 void MainGUI::initSlots ()
 {
-    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(onClose()));
-    connect(gameListDownloader, SIGNAL(downloadFinished(QList<GameListEntry>)), 
-            this, SLOT(onGameListDownloadFinished(QList<GameListEntry>)));
+    //connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(onClose()));
+//    connect(gameListDownloader, SIGNAL(downloadFinished(QList<GameListEntry>)),
+//            this, SLOT(onGameListDownloadFinished(QList<GameListEntry>)));
 }
 
-void MainGUI::initAdminlist ()
-{
-    statspage->getAdminlist();
-}
+//void MainGUI::initAdminlist ()
+//{
+//    statspage->getAdminlist();
+//}
 
 /**
  * Configuration options which are only applied once after startup.
@@ -179,20 +187,21 @@ void MainGUI::initConfigurations()
 {
     Config* config = gproxy->getConfig();
 
-    QDesktopWidget* desktop = QApplication::desktop();
+//    QDesktopWidget* desktop = QApplication::desktop();
 
-    int screenWidth = desktop->width();
-    int screenHeight = desktop->height();
-    int appWidth = config->getInt("width");
-    int appHeight = config->getInt("height");
+//    int screenWidth = desktop->width();
+//    int screenHeight = desktop->height();
+//    int appWidth = config->getInt("width");
+//    int appHeight = config->getInt("height");
 
-    // Resize if possible. App would crash if the window size is too small.
-    if (appWidth >= 500 && appHeight >= 200)
-    {
-        this->resize(appWidth, appHeight);
-    }
-    // Center the window.
-    this->move((screenWidth - this->width()) / 2, (screenHeight - this->height()) / 2 - 50);
+//    // Resize if possible. App would crash if the window size is too small.
+//    if (appWidth >= 500 && appHeight >= 200)
+//    {
+//        this->resize(appWidth, appHeight);
+//    }
+//    // Center the window.
+//    this->move((screenWidth - this->width()) / 2, (screenHeight - this->height()) / 2 - 50);
+    restoreGeometry(config->mainWindowGeometry());
 
     applyConfig();
 }
@@ -203,7 +212,6 @@ void MainGUI::initConfigurations()
 void MainGUI::applyConfig()
 {
     Config* config = gproxy->getConfig();
-
     setColor("backgroundcolor", config->getColor("backgroundcolor"));
     setColor("_foregroundcolor", QColor::Invalid);
     setFont("outputarea", config->getFont("outputareaFont"));
@@ -584,9 +592,11 @@ void MainGUI::onGameListItemClicked (QMouseEvent *mouseEvent)
  */
 void MainGUI::onRefreshButtonClicked ()
 {
+    //OBSOLETE
+    return;
     widget.refreshButton->setEnabled(false);
 
-    gameListDownloader->startDownload();
+    //gameListDownloader->startDownload();
 
     widget.refreshButton->setText("Refresh (10)");
     QTimer::singleShot(1000, this, SLOT(updateRefreshButton()));
@@ -899,8 +909,10 @@ void MainGUI::processInput (const QString& input)
         addMessage(ColoredMessage("Pr0gm4n", ColoredMessage::INFO), false, false, false);
         addMessage(ColoredMessage(", "), false, false, false);
         addMessage(ColoredMessage("Noman(1)", ColoredMessage::ERROR), false, false, false);
-        addMessage(ColoredMessage(" and "), false, false, false);
+        addMessage(ColoredMessage(", "), false, false, false);
         addMessage(ColoredMessage("Manufactoring", ColoredMessage::GAMEINFO), false, false, false);
+        addMessage(ColoredMessage(" and "), false, false, false);
+        addMessage(ColoredMessage("Jouven", ColoredMessage::USERCOLOR, QColor(255,142,0)), false, false, false);
         addMessage(ColoredMessage("."), false, false, true);
     }
     else if (command.startsWith("/test"))
@@ -1349,14 +1361,14 @@ void MainGUI::startWarcraft ()
 {
     QString exePath;
 
-    if (!gproxy->getCDKeyTFT().isEmpty())
-    {
-        exePath = gproxy->getWar3Path() + "Frozen Throne.exe";
-    }
-    else
-    {
-        exePath = gproxy->getWar3Path() + "Warcraft III.exe";
-    }
+//    if (!gproxy->getCDKeyTFT().isEmpty())
+//    {
+//        exePath = gproxy->getWar3Path() + "Frozen Throne.exe";
+//    }
+//    else
+//    {
+        exePath = gproxy->getWar3Path() + "/Warcraft III.exe";
+//    }
 
     if( !QProcess::startDetached(exePath, QStringList()) )
     {
@@ -1427,11 +1439,15 @@ void MainGUI::playerJoined (const ColoredMessage& playername)
         return;
     }
 
-    statspage->getPlayerInformation(playername.getMessage());
+    //statspage->getPlayerInformation(playername.getMessage());
 
     if (gproxy->getUsername() != playername.getMessage() && isAdmin(playername.getMessage()))
     {
-        QSound::play("sounds/vip_joins.wav");
+        QMediaPlayer* soundEffectTmp = new QMediaPlayer(qApp);
+        soundEffectTmp->setMedia(QUrl::fromLocalFile("sounds/vip_joins.wav"));
+        soundEffectTmp->play();
+        //this works, as in the full audio is played and then it gets deleted (at least on windows 10 2018-04-05)
+        soundEffectTmp->deleteLater();
     }
     else
     {
@@ -1440,7 +1456,11 @@ void MainGUI::playerJoined (const ColoredMessage& playername)
         {
             if (widget.friendList->item(i)->text() == playername.getMessage())
             {
-                QSound::play("sounds/vip_joins.wav");
+                QMediaPlayer* soundEffectTmp = new QMediaPlayer(qApp);
+                soundEffectTmp->setMedia(QUrl::fromLocalFile("sounds/vip_joins.wav"));
+                soundEffectTmp->play();
+                //this works, as in the full audio is played and then it gets deleted (at least on windows 10 2018-04-05)
+                soundEffectTmp->deleteLater();
                 break;
             }
         }
@@ -1600,22 +1620,22 @@ void MainGUI::onFriendlistItemClicked (QMouseEvent *mouseEvent)
     }
 }
 
-/**
- * Slot which is emitted when the statspage login was finished.
- */
-void MainGUI::statspageLoginFinished ()
-{
-    if (statspage->isLoggedIn())
-    {
-        addMessage(ColoredMessage("[GPROXY] Statspage available.", ColoredMessage::GPROXY));
-        initAdminlist();
-    }
-    else
-    {
-        addMessage(ColoredMessage("[ERROR] Statspage unavailable. "
-                "You might have entered wrong username or password.", ColoredMessage::ERROR));
-    }
-}
+///**
+// * Slot which is emitted when the statspage login was finished.
+// */
+//void MainGUI::statspageLoginFinished ()
+//{
+//    if (statspage->isLoggedIn())
+//    {
+//        addMessage(ColoredMessage("[GPROXY] Statspage available.", ColoredMessage::GPROXY));
+//        initAdminlist();
+//    }
+//    else
+//    {
+//        addMessage(ColoredMessage("[ERROR] Statspage unavailable. "
+//                "You might have entered wrong username or password.", ColoredMessage::ERROR));
+//    }
+//}
 
 /**
  * Slot which is emitted when the statspage finished parsing the playerinformation.
@@ -1750,9 +1770,9 @@ CGProxy* MainGUI::getGproxy ()
     return gproxy;
 }
 
-Statspage* MainGUI::getStatspage ()
-{
-    return statspage;
-}
+//Statspage* MainGUI::getStatspage ()
+//{
+//    return statspage;
+//}
 
 #define ERROR 0 /* Redefine ERROR macro */

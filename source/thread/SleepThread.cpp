@@ -1,5 +1,7 @@
 #include "SleepThread.h"
 
+#include <QThread>
+
 void SleepThread::sleep (unsigned long seconds)
 {
     QThread::sleep(seconds);

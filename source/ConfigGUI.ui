@@ -1740,6 +1740,131 @@ The log file is located in the folder where the .exe is and is named gproxy_log.
       </property>
      </item>
     </widget>
+    <widget class="QLineEdit" name="botGameCreationStartMessageTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>340</y>
+       <width>240</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When a bot creates a game, prints a message including the game name, to be able to parse it the string just before and just after are required. i.e. Creating public game [some game name].&lt;/p&gt;&lt;p&gt;Start would be: Creating public game [&lt;/p&gt;&lt;p&gt;End would be: ].&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When a bot creates a game, prints a message including the game name, to be able to parse it the string just before and just after are required. i.e. Creating public game [some game name].&lt;/p&gt;&lt;p&gt;Start would be: Creating public game [&lt;/p&gt;&lt;p&gt;End would be: ].&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="botGameCreationStartMessageLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>345</y>
+       <width>160</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When a bot creates a game, prints a message including the game name, to be able to parse it the string just before and just after are required. i.e. Creating public game [some game name].&lt;/p&gt;&lt;p&gt;Start would be: Creating public game [&lt;/p&gt;&lt;p&gt;End would be: ].&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When a bot creates a game, prints a message including the game name, to be able to parse it the string just before and just after are required. i.e. Creating public game [some game name].&lt;/p&gt;&lt;p&gt;Start would be: Creating public game [&lt;/p&gt;&lt;p&gt;End would be: ].&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>Bot game creation start message:</string>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="botGameCreationEndMessageTextfield">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>400</y>
+       <width>240</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When a bot creates a game, prints a message including the game name, to be able to parse it the string just before and just after are required. i.e. Creating public game [some game name].&lt;/p&gt;&lt;p&gt;Start would be: Creating public game [&lt;/p&gt;&lt;p&gt;End would be: ].&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When a bot creates a game, prints a message including the game name, to be able to parse it the string just before and just after are required. i.e. Creating public game [some game name].&lt;/p&gt;&lt;p&gt;Start would be: Creating public game [&lt;/p&gt;&lt;p&gt;End would be: ].&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="botGameCreationEndMessageLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>404</y>
+       <width>160</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When a bot creates a game, prints a message including the game name, to be able to parse it the string just before and just after are required. i.e. Creating public game [some game name].&lt;/p&gt;&lt;p&gt;Start would be: Creating public game [&lt;/p&gt;&lt;p&gt;End would be: ].&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When a bot creates a game, prints a message including the game name, to be able to parse it the string just before and just after are required. i.e. Creating public game [some game name].&lt;/p&gt;&lt;p&gt;Start would be: Creating public game [&lt;/p&gt;&lt;p&gt;End would be: ].&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>Bot game creation end message:</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

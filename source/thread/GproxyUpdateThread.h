@@ -13,7 +13,7 @@ private:
     bool stopped;
 
 public:
-    GproxyUpdateThread(CGProxy *p_gproxy);
+    GproxyUpdateThread(CGProxy *p_gproxy, QObject *parent_par = nullptr);
     virtual ~GproxyUpdateThread();
     void stop();
 

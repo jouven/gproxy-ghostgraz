@@ -28,7 +28,7 @@
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
-#include <QSound>
+#include <QMediaPlayer>
 
 #undef ERROR /* Undefine ERROR macro. Needed for ColoredMessage::ERROR. */
 
@@ -804,28 +804,36 @@ void CBNET::ProcessChatEvent (CIncomingChatEvent * chatEvent)
 
         if (m_GProxy->m_PlaySound)
         {
-            QSound::play("sounds/whisper.wav");
+            QMediaPlayer* soundEffectTmp = new QMediaPlayer(qApp);
+            soundEffectTmp->setMedia(QUrl::fromLocalFile("sounds/whisper.wav"));
+            soundEffectTmp->play();
+            //this works, as in the full audio is played and then it gets deleted (at least on windows 10 2018-04-05)
+            soundEffectTmp->deleteLater();
+
+            //CONSOLE_Print(ColoredMessage("SOUND STATUS JUST PLAY", ColoredMessage::WHISPER));
+            //this doesn't work on qt 5.10, neither does QSoundEffect
+            ////QSound::play("sounds/whisper.wav");
         }
     }
     else if (Event == CBNETProtocol::EID_TALK)
     {
         QString s = User;
         //phy hide autocreated games
-        bool isover = true;
-        if (Message.size() > 16)
-        {
-            if (Message.mid(0, 6) == "Game [" && Message.mid(Message.length() - 10, 10) == "] is over.")
-                isover = false;
-        }
-        if (((Message.mid(0, 22) != "Creating public game [") && (isover)))
-        {
+//        bool isover = true;
+//        if (Message.size() > 16)
+//        {
+//            if (Message.mid(0, 6) == "Game [" && Message.mid(Message.length() - 10, 10) == "] is over.")
+//                isover = false;
+//        }
+//        if (((Message.mid(0, 22) != "Creating public game [") && (isover)))
+//        {
             if (m_GProxy->getParrot() != "Ignore ignore" || !Message.startsWith("[PARROT]"))
             {
                 CONSOLE_Print(ColoredMessage("["), true, true, false);
                 CONSOLE_Print(ColoredMessage(User, ColoredMessage::USERCOLOR), true, false, false);
                 CONSOLE_Print(ColoredMessage("] " + Message), true, false, true);
             }
-        }
+//        }
 
         if (s != "")
         {
@@ -839,11 +847,29 @@ void CBNET::ProcessChatEvent (CIncomingChatEvent * chatEvent)
         {
             QueueChatCommand("[PARROT]" + Message);
         }
-        if (Message.mid(0, 22) == "Creating public game [" /*&& autodetect()*/)//phy autosearch
+        if (Message.startsWith("Creating public game [")
+            or Message.startsWith("Creating private game [")  /*&& autodetect()*/)//phy autosearch
         {
-            if(getautosearch() && cautosearch())
+            if(getautosearch() and cautosearch() )
             {
-                CheckForGame(Message.mid(22, GETlengthofgame(Message.toStdString())).toStdString());
+                //otherwise this case doesn't work
+                if (Message.count("[") == 1 and Message.count("]") == 1)
+                {
+                    auto startIndexTmp(Message.indexOf("["));
+                    auto endIndexTmp(Message.indexOf("]"));
+                    CheckForGame(Message.mid(startIndexTmp + 1, endIndexTmp - (startIndexTmp + 1)).toStdString());
+                }
+                else
+                {
+                    if (not botGameCreationStartMessage_f().isEmpty() and not botGameCreationEndMessage_f().isEmpty()
+                        and Message.contains(botGameCreationStartMessage_f()) and Message.contains(botGameCreationEndMessage_f()))
+                    {
+                        auto endIndexTmp(Message.lastIndexOf(botGameCreationEndMessage_f()));
+                        //
+                        QString resultTmp(Message.mid(botGameCreationStartMessage_f().size(), endIndexTmp - botGameCreationStartMessage_f().size()));
+                        CheckForGame(resultTmp.toStdString());
+                    }
+                }
             }
         }
         else if (Message.mid(0, 3) == "gn " && Message.length() <= 34 /*&& autodetect()*/)//phy autosearch
@@ -892,10 +918,13 @@ void CBNET::ProcessChatEvent (CIncomingChatEvent * chatEvent)
     {
         m_GProxy->SendLocalChat("[INFO] " + Message);
         CONSOLE_Print(ColoredMessage("[INFO] " + Message, ColoredMessage::INFO)); //phy autosearch
-        int index = Message.indexOf(" ");
-        if (Message.mid(index + 1, 48) == "is using Warcraft III The Frozen Throne in game ")
+        QString messageCopyTmp(Message.toLower());
+        messageCopyTmp.remove(' ');
+        if (messageCopyTmp.contains("andiscurrentlyingame"))
         {
-            CheckForGame(Message.mid(index + 49, Message.length() - index - 50).toStdString());
+            auto startIndexTmp(Message.indexOf("\""));
+            auto endIndexTmp(Message.lastIndexOf("\""));
+            CheckForGame(Message.mid(startIndexTmp + 1, endIndexTmp - (startIndexTmp + 1)).toStdString());
         }
     }
     else if (Event == CBNETProtocol::EID_ERROR)

@@ -1,5 +1,5 @@
 #include <QApplication>
-#include <QSound>
+#include <QMediaPlayer>
 #include <QElapsedTimer>
 #include <QDateTime>
 #include <QTextStream>
@@ -29,10 +29,10 @@
 
 #undef ERROR /* Undefine ERROR macro. Needed for ColoredMessage::ERROR. */
 
-CGProxy* gproxy;
-MainGUI* mainGUI;
+CGProxy* gproxyPtr;
+MainGUI* mainGUIPtr;
 QElapsedTimer timer;
-QFile* logFile;
+QFile* logFilePtr;
 
 bool playerLoadingComplete[12];
 int finishedLoadingCounter;
@@ -41,13 +41,13 @@ unsigned int countdownEndTime;
 
 string parseTextline (string input)
 {
-    if (gproxy->m_LocalSocket && (input.find("$host$") != string::npos))
+    if (gproxyPtr->m_LocalSocket && (input.find("$host$") != string::npos))
     {
-        input.replace(input.find("$host$"), 6, gproxy->m_HostName);
+        input.replace(input.find("$host$"), 6, gproxyPtr->m_HostName);
     }
 
     return input;
-};
+}
 
 /**
  * Returns the elapsed seconds since GProxy start.
@@ -79,9 +79,9 @@ unsigned long getElapsedMilliseconds ()
 void LOG_Print (const QString& logMessage, bool printTimestamp, bool lineBreak)
 {
     // If logging is disabled the log file is closed.
-    if (logFile->isOpen() && logFile->isWritable())
+    if (logFilePtr->isOpen() && logFilePtr->isWritable())
     {
-        QTextStream log(logFile);
+        QTextStream log(logFilePtr);
         if (printTimestamp)
         {
             QString dateTime = QLocale().toString(QDateTime::currentDateTime(),
@@ -103,9 +103,9 @@ void CheckForGame (string gamename)
 {
     if (getautosearch())
     {
-        gproxy->m_BNET->SetSearchGameName(gamename); //old one, but it works..
+        gproxyPtr->m_BNET->SetSearchGameName(gamename); //old one, but it works..
         CONSOLE_Print(ColoredMessage("[GPROXY] Searching for [" + QString::fromStdString(gamename) + "].", ColoredMessage::GPROXY), true);
-        gproxy->autosearch = false;
+        gproxyPtr->autosearch = false;
     }
 }
 
@@ -119,53 +119,63 @@ void CheckForGame (string gamename)
  */
 void CONSOLE_Print (const ColoredMessage& coloredMessage, bool log, bool printTimestamp, bool lineBreak)
 {
-    gproxy->addMessage(coloredMessage, log, printTimestamp, lineBreak);
+    gproxyPtr->addMessage(coloredMessage, log, printTimestamp, lineBreak);
 }
 
 bool fcfgfilterfirst ()// Phyton filter
 {
-    return gproxy->cfgfilterfirst;
+    return gproxyPtr->cfgfilterfirst;
 
 }
 
 string fcfgfilter ()// Phyton filter
 {
-    return gproxy->cfgfilter;
+    return gproxyPtr->cfgfilter;
 }
 
 bool getautosearch () //pr0 autosearch
 {
-    return gproxy->autosearch;
+    return gproxyPtr->autosearch;
 }
 
 void autosearch (bool autosearchNew) //pr0 autosearch
 {
-    gproxy->autosearch = autosearchNew;
+    gproxyPtr->autosearch = autosearchNew;
 }
 
 bool cautosearch () //pr0 cautosearch
 {
-    return gproxy->cautosearch;
+    return gproxyPtr->cautosearch;
 }
 
 bool displayautocreated ()
 {
-    return gproxy->displayautocreated;
+    return gproxyPtr->displayautocreated;
 }
 
 void displayautocreated (bool newone)
 {
-    gproxy->displayautocreated = newone;
+    gproxyPtr->displayautocreated = newone;
 }
 
 void flisting_current_games (bool newone)
 {
-    gproxy->m_listing_current_games = newone;
+    gproxyPtr->m_listing_current_games = newone;
 }
 
 bool flisting_current_games ()
 {
-    return gproxy->m_listing_current_games;
+    return gproxyPtr->m_listing_current_games;
+}
+
+QString botGameCreationStartMessage_f ()
+{
+    return gproxyPtr->botGameCreationStartMessage_f();
+}
+
+QString botGameCreationEndMessage_f ()
+{
+    return gproxyPtr->botGameCreationEndMessage_f();
 }
 
 /**
@@ -179,37 +189,41 @@ int main (int argc, char** argv)
 {
     QApplication app(argc, argv);
 
-    gproxy = new CGProxy();
+    CGProxy gproxyTmp;
+    gproxyPtr = &gproxyTmp;
 
-    mainGUI = new MainGUI(gproxy);
-    mainGUI->show();
+    MainGUI mainguiTmp(gproxyPtr);
+    mainGUIPtr = &mainguiTmp;
+    mainGUIPtr->show();
 
-    gproxy->connectSignalsAndSlots();
+    gproxyPtr->connectSignalsAndSlots();
 
     // For printing the date to the log file in English format.
-    //QLocale::setDefault(QLocale::English);
+    QLocale::setDefault(QLocale::English);
     // Support special characters.
     //QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     // For getting the elapsed time since application start.
     timer.start();
 
-    logFile = new QFile("gproxy_log.txt");
+    QFile logFileTmp("gproxy_log.txt");
+    logFilePtr = &logFileTmp;
 
     // Initialize config.
-    Config* config = new Config("gproxy.cfg");
-    gproxy->setConfig(config);
+    Config configTmp("gproxy.cfg");
+    Config* config = &configTmp;
+    gproxyPtr->setConfig(config);
 
     // Load config.
     int statusCode = config->loadConfig();
-    bool connect = gproxy->checkStatus(statusCode);
+    bool connect = gproxyPtr->checkStatus(statusCode);
 
     // Init mainGUI.
-    mainGUI->init();
+    mainGUIPtr->init();
 
     QObject::connect(config, SIGNAL(configSaved()),
-            gproxy, SLOT(applyConfig()), Qt::QueuedConnection);
+            gproxyPtr, SLOT(applyConfig()), Qt::QueuedConnection);
 
-    gproxy->initConfigurations();
+    gproxyPtr->initConfigurations();
 
 #ifdef WIN32
     // Initialize winsock
@@ -218,19 +232,19 @@ int main (int argc, char** argv)
 
     if (WSAStartup(MAKEWORD(2, 2), &wsadata) != 0)
     {
-        gproxy->showErrorMessage("Error starting winsock!");
+        gproxyPtr->showErrorMessage("Error starting winsock!");
         return 1;
     }
 
     // Increase process priority
     CONSOLE_Print(ColoredMessage("[GPROXY] setting process priority to \"above normal\"", ColoredMessage::GPROXY));
-    SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
+    //SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
 #endif
 
-    gproxy->showWelcomeMessages();
+    gproxyPtr->showWelcomeMessages();
 
     // FIXME Remove unnecessary parameters.
-    gproxy->initVariables("", "", true, false, connect);
+    gproxyPtr->initVariables("", "", true, false, connect);
 
     return app.exec();
 }
@@ -263,7 +277,8 @@ CGProxy::~CGProxy ()
     }
     players.clear();
 
-    delete config;
+
+    //delete config;
     delete m_LocalServer;
     delete m_LocalSocket;
     delete m_RemoteSocket;
@@ -311,49 +326,49 @@ void CGProxy::connectSignalsAndSlots()
     qRegisterMetaType<ColoredMessage>("ColoredMessage");
 
     connect(this, SIGNAL(signal_startUpdateThread()),
-            mainGUI, SLOT(startUpdateThread()), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(startUpdateThread()), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_addMessage(ColoredMessage, bool, bool, bool)),
-            mainGUI, SLOT(addMessage(ColoredMessage, bool, bool, bool)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(addMessage(ColoredMessage, bool, bool, bool)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_changeChannel(QString)),
-            mainGUI, SLOT(changeChannel(QString)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(changeChannel(QString)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_addChannelUser(QString, QString)),
-            mainGUI, SLOT(addChannelUser(QString, QString)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(addChannelUser(QString, QString)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_removeChannelUser(QString)),
-            mainGUI, SLOT(removeChannelUser(QString)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(removeChannelUser(QString)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_updateFriendlist(QList<Friend*>)),
-            mainGUI, SLOT(updateFriendlist(QList<Friend*>)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(updateFriendlist(QList<Friend*>)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_updateFriend(Friend*)),
-            mainGUI, SLOT(updateFriend(Friend*)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(updateFriend(Friend*)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_addFriend(Friend*)),
-            mainGUI, SLOT(addFriend(Friend*)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(addFriend(Friend*)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_removeFriend(unsigned char)),
-            mainGUI, SLOT(removeFriend(unsigned char)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(removeFriend(unsigned char)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_setGameslots(QList<Slot*>)),
-            mainGUI, SLOT(setGameslots(QList<Slot*>)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(setGameslots(QList<Slot*>)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_showErrorMessage(QString)),
-            mainGUI, SLOT(showErrorMessage(QString)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(showErrorMessage(QString)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_playerJoined(const ColoredMessage&)),
-            mainGUI, SLOT(playerJoined(const ColoredMessage&)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(playerJoined(const ColoredMessage&)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_showConfigDialog(bool)),
-            mainGUI, SLOT(showConfigDialog(bool)), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(showConfigDialog(bool)), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_initConfigurations()),
-            mainGUI, SLOT(initConfigurations()), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(initConfigurations()), Qt::QueuedConnection);
 
     connect(this, SIGNAL(signal_applyConfig()),
-            mainGUI, SLOT(applyConfig()), Qt::QueuedConnection);
+            mainGUIPtr, SLOT(applyConfig()), Qt::QueuedConnection);
 }
 
 /**
@@ -368,7 +383,7 @@ void CGProxy::connectSignalsAndSlots()
 void CGProxy::initVariables (string cpublic, string cfilter, bool temp_displayautocreated,
         bool listing_current_games, bool connect)
 {
-    m_Version = mainGUI->windowTitle().remove(0, 7).toStdString();
+    m_Version = mainGUIPtr->windowTitle().remove(0, 7).toStdString();
     m_LocalServer = new CTCPServer();
     m_LocalSocket = NULL;
     m_RemoteSocket = new CTCPClient();
@@ -400,7 +415,7 @@ void CGProxy::initVariables (string cpublic, string cfilter, bool temp_displayau
     m_NumEmptyActionsUsed = 0;
     m_LastAckTime = 0;
     m_LastActionTime = 0;
-    m_BNET = new CBNET(this, mainGUI, server.toStdString(), string(), 0, 0,
+    m_BNET = new CBNET(this, mainGUIPtr, server.toStdString(), string(), 0, 0,
             "USA", "United States", username.toStdString(), password.toStdString(),
             channel.toStdString(), war3version, exeversion, exeversionhash,
             passwordhashtype.toStdString(), 200);
@@ -446,14 +461,14 @@ void CGProxy::cleanup ()
 
     CONSOLE_Print(ColoredMessage("[GPROXY] shutting down", ColoredMessage::GPROXY));
 
-    if (logFile->isOpen())
+    if (logFilePtr->isOpen())
     {
-        logFile->close();
+        logFilePtr->close();
     }
-    delete logFile;
+    //delete logFilePtr;
 
-    delete mainGUI;
-    delete gproxy;
+   // delete mainGUIPtr;
+   // delete gproxyPtr;
 }
 
 /**
@@ -461,33 +476,35 @@ void CGProxy::cleanup ()
  */
 void CGProxy::applyConfig ()
 {
-    if (!logFile->isOpen() && config->getBoolean("log"))
+    if (!logFilePtr->isOpen() && config->getBoolean("log"))
     {
-        if (!logFile->open(QFile::Append | QFile::Text))
+        if (!logFilePtr->open(QFile::Append | QFile::Text))
         {
-            gproxy->showErrorMessage("Could not open logfile: " + logFile->errorString());
+            gproxyPtr->showErrorMessage("Could not open logfile: " + logFilePtr->errorString());
         }
     }
 
-    gproxy->setWar3Path(config->getString("war3path"));
-    gproxy->setCDKeyROC(config->getString("cdkeyroc"));
-    gproxy->setCDKeyTFT(config->getString("cdkeytft"));
-    gproxy->setServer(config->getString("server"));
-    gproxy->setCdKeyOwner(config->getString("cdkeysowner"));
+    gproxyPtr->setWar3Path(config->getString("war3path"));
+    gproxyPtr->setCDKeyROC(config->getString("cdkeyroc"));
+    gproxyPtr->setCDKeyTFT(config->getString("cdkeytft"));
+    gproxyPtr->setServer(config->getString("server"));
+    gproxyPtr->setCdKeyOwner(config->getString("cdkeysowner"));
     
-    gproxy->setPrivategamename(config->getString("privategamename"));
-    gproxy->setBotprefix(config->getString("botprefix"));
+    gproxyPtr->setPrivategamename(config->getString("privategamename"));
+    gproxyPtr->setBotprefix(config->getString("botprefix"));
     cautosearch = config->getBoolean("autosearch");
-    gproxy->m_PlaySound = config->getBoolean("sound");
-    gproxy->m_joinStats = config->getBoolean("joinstats");
-    gproxy->setUsername(config->getString("username"));
-    gproxy->setPassword(config->getString("password"));
-    gproxy->setChannel(config->getString("channel"));
-    gproxy->setWar3version(config->getInt("war3version"));
-    gproxy->setPort(config->getInt("port"));
-    gproxy->setExeversion(Util::extractNumbers(config->getString("exeversion").toStdString(), 4));
-    gproxy->setExeversionhash(Util::extractNumbers(config->getString("exeversionhash").toStdString(), 4));
-    gproxy->setPasswordhashtype(config->getString("passwordhashtype"));
+    gproxyPtr->m_PlaySound = config->getBoolean("sound");
+    gproxyPtr->m_joinStats = config->getBoolean("joinstats");
+    gproxyPtr->setUsername(config->getString("username"));
+    gproxyPtr->setPassword(config->getString("password"));
+    gproxyPtr->setChannel(config->getString("channel"));
+    gproxyPtr->setWar3version(config->getInt("war3version"));
+    gproxyPtr->setPort(config->getInt("port"));
+    gproxyPtr->setExeversion(Util::extractNumbers(config->getString("exeversion").toStdString(), 4));
+    gproxyPtr->setExeversionhash(Util::extractNumbers(config->getString("exeversionhash").toStdString(), 4));
+    gproxyPtr->setPasswordhashtype(config->getString("passwordhashtype"));
+    gproxyPtr->setBotGameCreationStartMessage_f(config->getString("botGameCreationStartMessage"));
+    gproxyPtr->setBotGameCreationEndMessage_f(config->getString("botGameCreationEndMessage"));
 
     emit signal_applyConfig();
 }
@@ -496,9 +513,9 @@ void CGProxy::showWelcomeMessages()
 {
     CONSOLE_Print(ColoredMessage(""), false);
     CONSOLE_Print(ColoredMessage("  Welcome to GProxy++."), false);
-    CONSOLE_Print(ColoredMessage("  Server: " + gproxy->getServer()), false);
-    CONSOLE_Print(ColoredMessage("  Username: " + gproxy->getUsername()), false);
-    CONSOLE_Print(ColoredMessage("  Channel: " + gproxy->getChannel()), false);
+    CONSOLE_Print(ColoredMessage("  Server: " + gproxyPtr->getServer()), false);
+    CONSOLE_Print(ColoredMessage("  Username: " + gproxyPtr->getUsername()), false);
+    CONSOLE_Print(ColoredMessage("  Channel: " + gproxyPtr->getChannel()), false);
     CONSOLE_Print(ColoredMessage(""), false);
     CONSOLE_Print(ColoredMessage("  Type /help at any time for help."), false);
     CONSOLE_Print(ColoredMessage(""), false);
@@ -511,8 +528,10 @@ void CGProxy::showWelcomeMessages()
     CONSOLE_Print(ColoredMessage("Pr0gm4n", ColoredMessage::INFO), false, false, false);
     CONSOLE_Print(ColoredMessage(", "), false, false, false);
     CONSOLE_Print(ColoredMessage("Noman(1)", ColoredMessage::ERROR), false, false, false);
-    CONSOLE_Print(ColoredMessage(" and "), false, false, false);
+    CONSOLE_Print(ColoredMessage(", "), false, false, false);
     CONSOLE_Print(ColoredMessage("Manufactoring", ColoredMessage::GAMEINFO), false, false, false);
+    CONSOLE_Print(ColoredMessage(" and "), false, false, false);
+    CONSOLE_Print(ColoredMessage("Jouven", ColoredMessage::USERCOLOR, QColor(255,142,0)), false, false, false);
     CONSOLE_Print(ColoredMessage("."), false, false, true);
 }
 
@@ -553,38 +572,38 @@ void CGProxy::changeChannel (QString channel)
 void CGProxy::addChannelUser (QString username, QString clanTag)
 {
     // Phyton waitgame
-    if (gproxy->getVShallCreate())
+    if (gproxyPtr->getVShallCreate())
     {
         QString tname = username.toLower();
-        QString tpre = gproxy->getBotprefix().toLower();
+        QString tpre = gproxyPtr->getBotprefix().toLower();
 
-        if (gproxy->getBotprefix().size() > 0 && gproxy->getBotprefix()[0] != "^"[0])
-            if (gproxy->getPrivategamename() != "" && tpre != "" && tname.mid(0, tpre.size()) == tpre)
+        if (gproxyPtr->getBotprefix().size() > 0 && gproxyPtr->getBotprefix()[0] != "^"[0])
+            if (gproxyPtr->getPrivategamename() != "" && tpre != "" && tname.mid(0, tpre.size()) == tpre)
             {
-                gproxy->m_BNET->QueueChatCommand("/w " + username
-                        + " !priv " + gproxy->getPrivategamename());
+                gproxyPtr->m_BNET->QueueChatCommand("/w " + username
+                        + " !priv " + gproxyPtr->getPrivategamename());
                 autosearch = true;
-                CheckForGame(gproxy->getPrivategamename().toStdString());
-                if (!gproxy->getVShallCreateQuiet())
+                CheckForGame(gproxyPtr->getPrivategamename().toStdString());
+                if (!gproxyPtr->getVShallCreateQuiet())
                 {
-                    gproxy->m_BNET->QueueChatCommand("gn: " + gproxy->getPrivategamename());
+                    gproxyPtr->m_BNET->QueueChatCommand("gn: " + gproxyPtr->getPrivategamename());
                 }
-                gproxy->setVShallCreate(false);
+                gproxyPtr->setVShallCreate(false);
             }
             else;
         else
         {
-            if (gproxy->getPrivategamename() != "" && tname == tpre.mid(1, tpre.size() - 1))
+            if (gproxyPtr->getPrivategamename() != "" && tname == tpre.mid(1, tpre.size() - 1))
             {
                 autosearch = true;
-                gproxy->m_BNET->QueueChatCommand("/w " + username
-                        + " !priv " + gproxy->getPrivategamename());
-                CheckForGame(gproxy->getPrivategamename().toStdString());
-                if (!gproxy->getVShallCreateQuiet())
+                gproxyPtr->m_BNET->QueueChatCommand("/w " + username
+                        + " !priv " + gproxyPtr->getPrivategamename());
+                CheckForGame(gproxyPtr->getPrivategamename().toStdString());
+                if (!gproxyPtr->getVShallCreateQuiet())
                 {
-                    gproxy->m_BNET->QueueChatCommand("gn: " + gproxy->getPrivategamename());
+                    gproxyPtr->m_BNET->QueueChatCommand("gn: " + gproxyPtr->getPrivategamename());
                 }
-                gproxy->setVShallCreate(false);
+                gproxyPtr->setVShallCreate(false);
             }
         }
     }
@@ -1049,7 +1068,7 @@ bool CGProxy::Update (long usecBlock)
                 if (((CIncomingGameHost*) (*i))->GetMapWidth() == 1984 &&
                         ((CIncomingGameHost*) (*i))->GetMapHeight() == 1984)
                 {
-                    if (GameName == gproxy->getPrivategamename().toStdString())
+                    if (GameName == gproxyPtr->getPrivategamename().toStdString())
                     {
                         GameName = "|cFFFF0000" + GameName;
                     }
@@ -1268,13 +1287,13 @@ bool CGProxy::CheckForwarding (QString message)
                     infile.getline(messageText, 224);
                     string tmp = parseTextline(messageText);
 
-                    if (gproxy->m_BNET->GetInGame() && (messageText[0] != "#"[0]))
+                    if (gproxyPtr->m_BNET->GetInGame() && (messageText[0] != "#"[0]))
                     {
                         if ((messageText[0] != "%"[0]))
                         {
                             if (messageText[0] != "~"[0])
                             {
-                                gproxy->sendGamemessage(QString::fromStdString(tmp));
+                                gproxyPtr->sendGamemessage(QString::fromStdString(tmp));
                             }
                             else
                             {
@@ -1283,11 +1302,11 @@ bool CGProxy::CheckForwarding (QString message)
                         }
                         else
                         {
-                            gproxy->m_BNET->QueueChatCommand(QString::fromStdString(tmp.substr(1)));
+                            gproxyPtr->m_BNET->QueueChatCommand(QString::fromStdString(tmp.substr(1)));
                         }
                     }
                     else if (messageText[0] != "#"[0])
-                        gproxy->m_BNET->QueueChatCommand(QString::fromStdString(tmp));
+                        gproxyPtr->m_BNET->QueueChatCommand(QString::fromStdString(tmp));
                 }
                 while (!infile.eof());
 
@@ -1380,14 +1399,14 @@ bool CGProxy::CheckForwarding (QString message)
                     SendLocalChat("battle.net: Disconnected");
                 }
 
-                if (mainGUI->getStatspage()->isLoggedIn())
-                {
-                    SendLocalChat("GhostGraz statspage: Available");
-                }
-                else
-                {
-                    SendLocalChat("GhostGraz statspage: Not available");
-                }
+//                if (mainGUIPtr->getStatspage()->isLoggedIn())
+//                {
+//                    SendLocalChat("GhostGraz statspage: Available");
+//                }
+//                else
+//                {
+//                    SendLocalChat("GhostGraz statspage: Not available");
+//                }
             }
         }
         else if (command.length() >= 4 && command.startsWith("/w "))
@@ -1412,31 +1431,31 @@ bool CGProxy::CheckForwarding (QString message)
         {
             if (command == "/s")
             {
-                gproxy->sendGamemessage("!stats");
+                gproxyPtr->sendGamemessage("!stats");
             }
             else
             {
-                gproxy->sendGamemessage("!stats "+message.mid(3));
+                gproxyPtr->sendGamemessage("!stats "+message.mid(3));
             }
         }
         else if (command == "/sd" || command.startsWith("/sd "))
         {
             if (command == "/sd")
             {
-                gproxy->sendGamemessage("!statsdota");
+                gproxyPtr->sendGamemessage("!statsdota");
             }
             else
             {
-                gproxy->sendGamemessage("!statsdota "+message.mid(4));
+                gproxyPtr->sendGamemessage("!statsdota "+message.mid(4));
             }
         }
         else if (command == "/statslast" || command == "/sl")
         {
-            gproxy->sendGamemessage("!stats " + lastLeaver->getName().getMessage());
+            gproxyPtr->sendGamemessage("!stats " + lastLeaver->getName().getMessage());
         }
         else
         {
-            gproxy->m_BNET->QueueChatCommand(message, false);
+            gproxyPtr->m_BNET->QueueChatCommand(message, false);
         }
     } // if (command.length() >= 1 && command.startsWith("/"))
     else if (command.length() >= 1 && command.startsWith("!"))
@@ -1449,27 +1468,27 @@ bool CGProxy::CheckForwarding (QString message)
         {
             if (command == "!s")
             {
-                gproxy->sendGamemessage("!stats");
+                gproxyPtr->sendGamemessage("!stats");
             }
             else
             {
-                gproxy->sendGamemessage("!stats "+message.mid(3));
+                gproxyPtr->sendGamemessage("!stats "+message.mid(3));
             }
         }
         else if (command == "!sd" || command.startsWith("!sd "))
         {
             if (command == "!sd")
             {
-                gproxy->sendGamemessage("!statsdota");
+                gproxyPtr->sendGamemessage("!statsdota");
             }
             else if (command.mid(3, 1) == " ")
             {
-                gproxy->sendGamemessage("!statsdota "+message.mid(4));
+                gproxyPtr->sendGamemessage("!statsdota "+message.mid(4));
             }
         }
         else if (command == "!statslast" || command == "!sl")
         {
-            gproxy->sendGamemessage("!stats " + lastLeaver->getName().getMessage());
+            gproxyPtr->sendGamemessage("!stats " + lastLeaver->getName().getMessage());
         }
     } // if (command.length() >= 1 && command.startsWith("!"))
 
@@ -1556,7 +1575,7 @@ void CGProxy::ProcessLocalPackets ()
 
                                 // Manufactorings work
                                 m_GameName = ((CIncomingGameHost*) (*i))->GetGameName();
-                                gproxy->changeChannel(QString::fromStdString(m_GameName));
+                                gproxyPtr->changeChannel(QString::fromStdString(m_GameName));
 
                                 break;
                             }
@@ -1581,7 +1600,7 @@ void CGProxy::ProcessLocalPackets ()
             {
                 m_LeaveGameSent = true;
                 m_LocalSocket->Disconnect();
-                gproxy->m_BNET->QueueChatCommand("/whois " + QString::fromStdString(gproxy->m_HostName));
+                gproxyPtr->m_BNET->QueueChatCommand("/whois " + QString::fromStdString(gproxyPtr->m_HostName));
             }
             else if (Packet->GetID() == CGameProtocol::W3GS_CHAT_TO_HOST)
             {
@@ -1706,15 +1725,23 @@ void CGProxy::ProcessRemotePackets ()
                             && message.contains("] was banned by player [")
                             && message.contains("] on server ["))
                     {
-                        QSound::play("sounds/player_banned.wav");
-                    }
+                        QMediaPlayer* soundEffectTmp = new QMediaPlayer(qApp);
+                        soundEffectTmp->setMedia(QUrl::fromLocalFile("sounds/player_banned.wav"));
+                        soundEffectTmp->play();
+                        //this works, as in the full audio is played and then it gets deleted (at least on windows 10 2018-04-05)
+                        soundEffectTmp->deleteLater();
+                     }
 
                     // If the message is a autogenerated "same ip" message
                     if ((message.contains("Player [")
                             && message.contains("] has the same IP address as: "))
                             || message.contains("same IPs:"))
                     {
-                        QSound::play("sounds/same_ip.wav");
+                        QMediaPlayer* soundEffectTmp = new QMediaPlayer(qApp);
+                        soundEffectTmp->setMedia(QUrl::fromLocalFile("sounds/same_ip.wav"));
+                        soundEffectTmp->play();
+                        //this works, as in the full audio is played and then it gets deleted (at least on windows 10 2018-04-05)
+                        soundEffectTmp->deleteLater();
                     }
 
                     if (Flag == 16)
@@ -1776,11 +1803,15 @@ void CGProxy::ProcessRemotePackets ()
                     }
                 }
 
-                if (gproxy->m_GameStarted)
+                if (gproxyPtr->m_GameStarted)
                 {
-                    if (gproxy->m_PlaySound)
+                    if (gproxyPtr->m_PlaySound)
                     {
-                        QSound::play("sounds/leaver_detected.wav");
+                        QMediaPlayer* soundEffectTmp = new QMediaPlayer(qApp);
+                        soundEffectTmp->setMedia(QUrl::fromLocalFile("sounds/leaver_detected.wav"));
+                        soundEffectTmp->play();
+                        //this works, as in the full audio is played and then it gets deleted (at least on windows 10 2018-04-05)
+                        soundEffectTmp->deleteLater();
                     }
                 }
 
@@ -2009,9 +2040,15 @@ void CGProxy::ProcessRemotePackets ()
 
                     finishedLoadingCounter = 0;
 
-                    if (gproxy->m_PlaySound)
+                    if (gproxyPtr->m_PlaySound)
                     {
-                        QSound::play("sounds/game_started.wav");
+                        //QSound::play("sounds/game_started.wav");
+
+                        QMediaPlayer* soundEffectTmp = new QMediaPlayer(qApp);
+                        soundEffectTmp->setMedia(QUrl::fromLocalFile("sounds/game_started.wav"));
+                        soundEffectTmp->play();
+                        //this works, as in the full audio is played and then it gets deleted (at least on windows 10 2018-04-05)
+                        soundEffectTmp->deleteLater();
                     }
                 }
             }
@@ -2321,7 +2358,7 @@ bool CGProxy::AddGame (CIncomingGameHost* game)
     if (!DuplicateFound)
     {
         m_Games.push_back(game);
-        gproxy->autosearch = true; //pr0 autosearch
+        gproxyPtr->autosearch = true; //pr0 autosearch
     }
 
     // the game list cannot hold more than 20 games (warcraft 3 doesn't handle it properly and ignores any further games)
@@ -2348,7 +2385,7 @@ bool CGProxy::AddGame (CIncomingGameHost* game)
 
 void CGProxy::sendGamemessage (QString message, bool alliesOnly)
 {
-    if (message.isEmpty() || !gproxy->m_BNET->GetInGame())
+    if (message.isEmpty() || !gproxyPtr->m_BNET->GetInGame())
     {
         return;
     }
@@ -2363,7 +2400,7 @@ void CGProxy::sendGamemessage (QString message, bool alliesOnly)
     BYTEARRAY toPIDs;
     BYTEARRAY packet;
 
-    if (!gproxy->m_GameStarted)
+    if (!gproxyPtr->m_GameStarted)
     {
         foreach(Slot* slot, slotList)
         {
@@ -2373,7 +2410,7 @@ void CGProxy::sendGamemessage (QString message, bool alliesOnly)
             }
         }
 
-        packet = gproxy->m_GameProtocol->SEND_W3GS_CHAT_TO_HOST(gproxy->m_ChatPID, toPIDs, 16, BYTEARRAY(), message);
+        packet = gproxyPtr->m_GameProtocol->SEND_W3GS_CHAT_TO_HOST(gproxyPtr->m_ChatPID, toPIDs, 16, BYTEARRAY(), message);
     }
     else if (alliesOnly)
     {
@@ -2392,7 +2429,7 @@ void CGProxy::sendGamemessage (QString message, bool alliesOnly)
         extraFlags.push_back(0);
         extraFlags.push_back(0);
 
-        packet = gproxy->m_GameProtocol->SEND_W3GS_CHAT_TO_HOST(gproxy->m_ChatPID, toPIDs, 32, extraFlags, message);
+        packet = gproxyPtr->m_GameProtocol->SEND_W3GS_CHAT_TO_HOST(gproxyPtr->m_ChatPID, toPIDs, 32, extraFlags, message);
     }
     else
     {
@@ -2410,7 +2447,7 @@ void CGProxy::sendGamemessage (QString message, bool alliesOnly)
         extraFlags.push_back(0);
         extraFlags.push_back(0);
 
-        packet = gproxy->m_GameProtocol->SEND_W3GS_CHAT_TO_HOST(gproxy->m_ChatPID, toPIDs, 32, extraFlags, message);
+        packet = gproxyPtr->m_GameProtocol->SEND_W3GS_CHAT_TO_HOST(gproxyPtr->m_ChatPID, toPIDs, 32, extraFlags, message);
     }
 
     if (CheckForwarding(message))
@@ -2434,7 +2471,7 @@ void CGProxy::changeTeam (unsigned char team)
         }
     }
 
-    BYTEARRAY Packet = gproxy->m_GameProtocol->SEND_W3GS_TEAMCHANGE(gproxy->m_ChatPID, toPIDs, team);
+    BYTEARRAY Packet = gproxyPtr->m_GameProtocol->SEND_W3GS_TEAMCHANGE(gproxyPtr->m_ChatPID, toPIDs, team);
 
     m_PacketBuffer.push(new CCommandPacket(W3GS_HEADER_CONSTANT, Packet[1], Packet));
     m_LocalPackets.push(new CCommandPacket(W3GS_HEADER_CONSTANT, Packet[1], Packet));
@@ -2567,9 +2604,9 @@ bool CGProxy::checkStatus (int statusCode)
  */
 void CGProxy::spoofcheck ()
 {
-    if (gproxy->m_BNET->GetLoggedIn())
+    if (gproxyPtr->m_BNET->GetLoggedIn())
     {
-        gproxy->m_BNET->QueueChatCommand("spoofcheck", gproxy->m_HostName, true);
+        gproxyPtr->m_BNET->QueueChatCommand("spoofcheck", gproxyPtr->m_HostName, true);
     }
 }
 

@@ -32,6 +32,7 @@ public:
     QColor getDefaultColor();
     QFont getFont(const QString &key);
     QColor getUserColor(const QString &username, const QColor& defaultColor = QColor::Invalid);
+    QByteArray mainWindowGeometry();
 
     void setAdmins(const QStringList& admins);
     bool setString(const QString &key, const QString &value);
@@ -40,6 +41,7 @@ public:
     bool setColor(const QString &key, const QColor &color);
     bool setFont(const QString &key, const QFont &font);
     bool setUserColor(const QString &username, const QColor &usercolor);
+    void setMainWindowGeometry(const QByteArray& windowGeometry_par_con);
 
     void commit();
 

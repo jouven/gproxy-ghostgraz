@@ -101,6 +101,8 @@ void AddGamesFromTextFile(string filename, string gamemode);
 void AddGamesFromTextFile(string filename);
 bool flisting_current_games();
 void flisting_current_games(bool newone);
+QString botGameCreationStartMessage_f ();
+QString botGameCreationEndMessage_f ();
 void downloadfile(string url, string filename);
 void ConvertHTMLtoTXT(string html, string txt, string flag);
 
@@ -246,6 +248,8 @@ public:
     void setCdKeyOwner(QString owner) { this->cdKeyOwner = owner; }
     void setDotaMap(bool dotaMap) { this->dotaMap = dotaMap; }
     void setConfig(Config *config) { this->config = config; }
+    void setBotGameCreationStartMessage_f(const QString& botGameCreationStartMessage_par_con){ botGameCreationStartMessage_pri = botGameCreationStartMessage_par_con;  }
+    void setBotGameCreationEndMessage_f(const QString& botGameCreationEndMessage_par_con){ botGameCreationEndMessage_pri = botGameCreationEndMessage_par_con;  }
 
     QString getPrivategamename() { return privategamename; }
     QString getBotprefix() { return botprefix; }
@@ -256,6 +260,8 @@ public:
     QString getCDKeyTFT() { return cdKeyTFT; }
     QString getCDKeyROC() { return cdKeyROC; }
     QString getCdKeyOwner() { return cdKeyOwner; }
+    QString botGameCreationStartMessage_f() { return botGameCreationStartMessage_pri; }
+    QString botGameCreationEndMessage_f() { return botGameCreationEndMessage_pri; }
     
     bool isDotaMap() { return dotaMap; }
     Config *getConfig() { return config; }
@@ -290,6 +296,8 @@ private:
     QString channel;
     QString privategamename;
     QString botprefix;
+    QString botGameCreationStartMessage_pri;
+    QString botGameCreationEndMessage_pri;
     bool vShallCreate;
     bool vShallCreateQuiet;
     QString parrot;

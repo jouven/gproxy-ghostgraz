@@ -1,10 +1,10 @@
-#ifndef _MAINGUI_H
-#define	_MAINGUI_H
+#ifndef GPROXY_MAINGUI_H
+#define	GPROXY_MAINGUI_H
 
 #include "ui_MainGUI.h"
 #include "gproxy.h"
 #include "thread/GproxyUpdateThread.h"
-#include "Statspage.h"
+//#include "Statspage.h"
 #include "data/Player.h"
 #include "data/Slot.h"
 #include "data/GameListEntry.h"
@@ -24,13 +24,15 @@ class MainGUI : public QMainWindow
 {
     Q_OBJECT
 
+
+    void closeEvent(QCloseEvent* event) override;
 public:
     MainGUI(CGProxy *p_gproxy);
     virtual ~MainGUI();
 
     void init();
     CGProxy* getGproxy();
-    Statspage* getStatspage();
+    //Statspage* getStatspage();
     bool isAdmin(const QString &name);
 
 public slots:
@@ -58,16 +60,18 @@ protected:
 private:
     Ui::MainGUI widget;
     CGProxy* gproxy;
-    GameListDownloader* gameListDownloader;
+    //(jouven) can't be set on any config setting, it's hardcoded and requires user and password
+    //see void MainGUI::init ()
+    //GameListDownloader* gameListDownloader;
     GproxyUpdateThread* gproxyUpdateThread;
-    Statspage* statspage;
+    //Statspage* statspage;
     QStringList admins;
     static const int ROLE_FRIEND = 35;
 
-    void initStatspage();
+    //void initStatspage();
     void initLayout();
     void initSlots();
-    void initAdminlist();
+    //void initAdminlist();
 
     void resizeEvent(QResizeEvent* event);
     void processInput(const QString& input);
@@ -77,7 +81,7 @@ private:
     bool onInputTextAreaKeyPressed(QKeyEvent* event);
 
 private slots:
-    void onClose();
+    //void onClose();
     void onRestart();
     void onTitleLabelTextChanged();
     void onChannelContextMenu(const QPoint&);
@@ -88,11 +92,11 @@ private slots:
     void startWarcraft();
     void onChannellistItemClicked(QMouseEvent*);
     void onFriendlistItemClicked(QMouseEvent*);
-    void statspageLoginFinished();
+    //void statspageLoginFinished();
     void receivedPlayerInformation(Player*);
     void onAdminlistReceived(QStringList);
     void userColorChanged(MColorDialog* colorDialog);
     void onGameListDownloadFinished(QList<GameListEntry> gameList);
 };
 
-#endif	/* _MAINGUI_H */
+#endif	/* GPROXY_MAINGUI_H */

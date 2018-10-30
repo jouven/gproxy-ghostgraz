@@ -75,11 +75,14 @@ void Config::addKeys ()
     keys.append("privategamename");
     keys.append("botprefix");
     keys.append("log");
+    keys.append("botGameCreationStartMessage");
+    keys.append("botGameCreationEndMessage");
 
     keys.append("# Application config values");
-    keys.append("width");
-    keys.append("height");
-    keys.append("botorder");
+    //keys.append("width");
+    //keys.append("height");
+    keys.append("mainwindowgeometry");
+    //keys.append("botorder");
 
     keys.append("# Appearance");
     keys.append("backgroundcolor");
@@ -238,7 +241,8 @@ void Config::addDefaultValue (const QString &key)
                 "klingone_graz{255,0,0};"
                 "Noman(1){0,0,255};"
                 "Manufactoring{0,255,0};"
-                "Phyton{0,255,0}");
+                "Phyton{0,255,0};"
+                "Jouven{255,142,0}");
     }
     else // Add an empty string (DO NOT DELETE THIS ELSE CLAUSE!)
     {
@@ -408,6 +412,22 @@ QColor Config::getUserColor(const QString& username, const QColor& defaultColor)
     return QColor::Invalid;
 }
 
+QByteArray Config::mainWindowGeometry()
+{
+    QByteArray resultTmp;
+    for (int i = 0; i < keys.count(); i++)
+    {
+        if (keys.at(i).toLower() == "mainwindowgeometry")
+        {
+            QByteArray byteArrayTmp;
+            byteArrayTmp.append(values[i]);
+            resultTmp = byteArrayTmp.fromBase64(byteArrayTmp);
+            break;
+        }
+    }
+    return resultTmp;
+}
+
 
 
 bool Config::setString (const QString &key, const QString &value)
@@ -538,6 +558,20 @@ bool Config::setUserColor(const QString& username, const QColor& usercolor)
     }
 
     return false;
+}
+
+void Config::setMainWindowGeometry(const QByteArray& windowGeometry_par_con)
+{
+    for (int i = 0; i < keys.count(); i++)
+    {
+        if (keys.at(i).toLower() == "mainwindowgeometry")
+        {
+            QString stringTmp;
+            stringTmp.append(windowGeometry_par_con.toBase64());
+            values[i] = stringTmp;
+            break;
+        }
+    }
 }
 
 void Config::commit ()

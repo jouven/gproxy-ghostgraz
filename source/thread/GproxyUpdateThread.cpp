@@ -1,6 +1,7 @@
 #include "thread/GproxyUpdateThread.h"
 
-GproxyUpdateThread::GproxyUpdateThread (CGProxy *p_gproxy)
+GproxyUpdateThread::GproxyUpdateThread (CGProxy *p_gproxy, QObject *parent_par)
+    : QThread(parent_par)
 {
     gproxy = p_gproxy;
     stopped = false;
